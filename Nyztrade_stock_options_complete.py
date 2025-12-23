@@ -415,14 +415,14 @@ class DhanStockOptionsFetcher:
         current_step = 0
         
         for strike_type in strikes:
-            status_text.text(f"Fetching {strike_type} ({expiry_flag} Expiry Code: {expiry_code})...")
+            status_text.text(f"Fetching {strike_type} for {stock} (Monthly Expiry Code: {expiry_code})...")
             
-            call_data = self.fetch_rolling_data(symbol, from_date, to_date, strike_type, "CALL", interval, expiry_code, expiry_flag)
+            call_data = self.fetch_rolling_data(stock, from_date, to_date, strike_type, "CALL", interval, expiry_code)
             current_step += 1
             progress_bar.progress(current_step / total_steps)
             time.sleep(1)
             
-            put_data = self.fetch_rolling_data(symbol, from_date, to_date, strike_type, "PUT", interval, expiry_code, expiry_flag)
+            put_data = self.fetch_rolling_data(stock, from_date, to_date, strike_type, "PUT", interval, expiry_code)
             current_step += 1
             progress_bar.progress(current_step / total_steps)
             time.sleep(1)
@@ -1601,7 +1601,7 @@ def main():
             st.download_button(
                 "📥 Download Full Historical Data (CSV)",
                 data=csv,
-                file_name=f"NYZTrade_{symbol}_{target_date}.csv",
+                file_name=f"NYZTrade_{stock}_{target_date}.csv",
                 mime="text/csv"
             )
     
